@@ -5,6 +5,13 @@ app = FastAPI()
 
 
 @app.get('/')
-def home():
-    return [1,5,10]
+async def home() -> dict[str, str]:
+    return {'data': 'mess'}
 
+
+@app.get('/contacts')
+async def contacts() -> int:
+    return 1000
+
+
+posts = 
