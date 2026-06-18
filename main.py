@@ -1,18 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional
+from pydantic import BaseModel
 
 
 app = FastAPI()
 
 
-@app.get('/')
-async def home() -> dict[str, str]:
-    return {'data': 'mess'}
-
-
-@app.get('/contacts')
-async def contacts() -> int:
-    return 1000
+class Post(BaseModel):
+    id: int
+    title: str
+    body: str
 
 
 posts = [
@@ -35,8 +32,9 @@ posts = [
 
 
 @app.get('/items')
-async def items() -> list[dict]:
-    return posts
+async def items() -> list[Post]:
+    data_posts = [Post(**item) for item in posts]
+    return data_posts
 
 
 @app.get('/items/{id}')
